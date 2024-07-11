@@ -1,9 +1,20 @@
 
-import javax.swing.*;
-import java.awt.*;
+import java.awt.BorderLayout;
+import java.awt.Color;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
+
+import javax.swing.JButton;
+import javax.swing.JFileChooser;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JMenu;
+import javax.swing.JMenuBar;
+import javax.swing.JMenuItem;
+import javax.swing.JPanel;
+import javax.swing.JTextArea;
+import javax.swing.JTextField;
 
 public class TelaPrincipal extends JFrame implements ActionListener {
     public static final String MENU_PRINCIPAL_ABRIR = "menuPrincipalAbrir";
@@ -87,9 +98,6 @@ public class TelaPrincipal extends JFrame implements ActionListener {
                 File arquivoSelecionado = seletorDeArquivo.getSelectedFile();
                 abrirBancoDeDados(arquivoSelecionado);
             }
-            else {
-                //labelMensagens.setText("abrir arquivo cancelado");
-            }
         }
         else if(e.getActionCommand().equals(BOTAO_PESQUISAR)) {
             pesquisar(txtCodigo.getText().toUpperCase());
@@ -129,9 +137,9 @@ public class TelaPrincipal extends JFrame implements ActionListener {
         }
         else {
             textArea.append(System.lineSeparator() + "Mercadoria localizada com sucesso!");
-            textArea.append(System.lineSeparator() + "Código...: " + m.getCodigo());
-            textArea.append(System.lineSeparator() + "Descrição: " + m.getDescricao());
-            textArea.append(System.lineSeparator() + "Preço....: " + m.getPreco());
+            textArea.append(System.lineSeparator() + "Código...: " + m.codigo());
+            textArea.append(System.lineSeparator() + "Descrição: " + m.descricao());
+            textArea.append(System.lineSeparator() + "Preço....: " + m.preco());
         }
         textArea.append(System.lineSeparator() + "Tempo de pesquisa (SEGUNDOS): " + tempo/1000 );
     }

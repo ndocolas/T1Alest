@@ -2,6 +2,7 @@ import java.io.BufferedReader;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
+import java.util.concurrent.atomic.AtomicInteger;
 
 public class BancoDeDados {
 
@@ -25,26 +26,17 @@ public class BancoDeDados {
             throw new RuntimeException(e);
         }
         BufferedReader leitor = new BufferedReader(arquivo);
-        String linha;
         try {
-            linha = leitor.readLine();
-            while (linha != null) {
-                if (!((linha = leitor.readLine()) != null))break;
-                String[] colunas = linha.split(",");
-                Mercadoria m = new Mercadoria(colunas[0], colunas[1], Double.parseDouble(colunas[2]));
-                mercadorias[quantidade] = m;
-                quantidade++;
-            }
+            AtomicInteger contador = new AtomicInteger(0);
+            leitor.lines().map(line -> line.split(","))
+            .forEach(colunas -> mercadorias[contador.getAndIncrement()] = new Mercadoria(colunas[0], colunas[1], Double.parseDouble(colunas[2])));
+            quantidade = contador.get();
             leitor.close();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        } catch (IOException _) {}
     }
 
     public void mergeSort(Mercadoria[] arr) {
-        if (arr == null || arr.length <= 1) {
-            return;
-        }
+        if (arr == null || arr.length <= 1) return;
 
         int n = quantidade;
         Mercadoria[] temp = new Mercadoria[n];
@@ -70,7 +62,7 @@ public class BancoDeDados {
         int k = left;
 
         while (i <= middle && j <= right) {
-            if (temp[i].getCodigo().compareTo(temp[j].getCodigo()) <= 0) {
+            if (temp[i].codigo().compareTo(temp[j].codigo()) <= 0) {
                 arr[k] = temp[i];
                 i++;
             } else {
@@ -92,7 +84,7 @@ public class BancoDeDados {
         int fim = quantidade;
         while (inicio <= fim) {
             int meio = (fim + inicio) / 2;
-            int comparacao = codigo.compareTo(mercadorias[meio].getCodigo());
+            int comparacao = codigo.compareTo(mercadorias[meio].codigo());
             if (comparacao < 0) {
                 fim = meio - 1;
             } else if (comparacao > 0) {
